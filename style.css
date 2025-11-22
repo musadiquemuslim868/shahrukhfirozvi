@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: philosopher, sans-serif;
 }
 
 body {
@@ -156,6 +156,8 @@ button.secondary:hover {
     border-radius: 6px;
     margin-bottom: 10px;
     border-left: 5px solid #007bff;
+    text-transform: capitalize;
+    
 }
 
 #answerList {
