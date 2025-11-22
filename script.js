@@ -149,12 +149,29 @@ function finishQuiz() {
   let total = questions[currentSubject].length;
   let wrong = total - score;
 
+  // NEW — Percentage
+  let percentage = (score / total) * 100;
+
+  // NEW — Pass/Fail (50% rule)
+  let status = percentage >= 50 ? "Pass" : "Fail";
+
   document.getElementById("resultName").innerText = "Name: " + username;
   document.getElementById("resultSubject").innerText = "Subject: " + currentSubject;
   document.getElementById("resultCorrect").innerText = "Correct Answers: " + score;
   document.getElementById("resultWrong").innerText = "Wrong Answers: " + wrong;
   document.getElementById("resultTotal").innerText = "Total Questions: " + total;
+
+  // NEW — Add These 2 Lines
+  document.getElementById("resultPercentage").innerText = "Percentage: " + percentage.toFixed(2) + "%";
+  document.getElementById("resultStatus").innerText = "Status: " + status;
+  if(status==="Pass"){
+    document.getElementById("resultStatus").style.color="green";
+  }
+  else{
+    document.getElementById("resultStatus").style.color="red";
+  }
 }
+
 
 // ----------------------------------
 // SHOW ANSWERS
