@@ -47,19 +47,16 @@ window.onload = () => {
 
 function goToSubject() {
   username = document.getElementById("username").value.trim();
-
   if (username === "") {
     alert("Enter name first");
     return;
   }
-
   document.getElementById("startScreen").classList.add("hide");
   document.getElementById("subjectScreen").classList.remove("hide");
 }
 
 function showEnterQuiz(subject) {
   currentSubject = subject;
-
   document.getElementById("subjectScreen").classList.add("hide");
   document.getElementById("enterQuizScreen").classList.remove("hide");
   document.getElementById("chosenSubject").innerText = subject;
@@ -70,10 +67,8 @@ function startQuiz() {
   score = 0;
   userAnswers = [];
   timeLeft = 30;
-
   document.getElementById("enterQuizScreen").classList.add("hide");
   document.getElementById("quizScreen").classList.remove("hide");
-
   loadQuestion();
   startTimer();
 }
@@ -86,7 +81,6 @@ function startTimer() {
   timer = setInterval(() => {
     timeLeft--;
     document.getElementById("timer").innerText = "Time: " + timeLeft;
-
     if (timeLeft <= 0) {
       clearInterval(timer);
       finishQuiz();
@@ -120,13 +114,10 @@ function loadQuestion() {
 
 function selectAnswer(i) {
   userAnswers.push(i);
-
   if (i === questions[currentSubject][currentIndex].answer) {
     score++;
   }
-
   currentIndex++;
-
   if (currentIndex >= questions[currentSubject].length) {
     finishQuiz();
   } else {
@@ -135,12 +126,11 @@ function selectAnswer(i) {
 }
 
 // ----------------------------------
-// FINISH QUIZ (LOCK QUIZ)
+// FINISH QUIZ
 // ----------------------------------
 
 function finishQuiz() {
   clearInterval(timer);
-
   localStorage.setItem("quizDone", "true");
 
   document.getElementById("quizScreen").classList.add("hide");
@@ -148,11 +138,7 @@ function finishQuiz() {
 
   let total = questions[currentSubject].length;
   let wrong = total - score;
-
-  // NEW — Percentage
   let percentage = (score / total) * 100;
-
-  // NEW — Pass/Fail (50% rule)
   let status = percentage >= 50 ? "Pass" : "Fail";
 
   document.getElementById("resultName").innerText = "Name: " + username;
@@ -160,18 +146,37 @@ function finishQuiz() {
   document.getElementById("resultCorrect").innerText = "Correct Answers: " + score;
   document.getElementById("resultWrong").innerText = "Wrong Answers: " + wrong;
   document.getElementById("resultTotal").innerText = "Total Questions: " + total;
-
-  // NEW — Add These 2 Lines
   document.getElementById("resultPercentage").innerText = "Percentage: " + percentage.toFixed(2) + "%";
   document.getElementById("resultStatus").innerText = "Status: " + status;
+
   if(status==="Pass"){
     document.getElementById("resultStatus").style.color="green";
-  }
-  else{
+  } else {
     document.getElementById("resultStatus").style.color="red";
   }
-}
 
+  // -----------------------------
+  // WhatsApp Share Button
+  // -----------------------------
+  const shareBtn = document.getElementById('shareBtn');
+  shareBtn.onclick = () => {
+      const name = document.getElementById('resultName').innerText;
+      const subject = document.getElementById('resultSubject').innerText;
+      const correct = document.getElementById('resultCorrect').innerText;
+      const wrong = document.getElementById('resultWrong').innerText;
+      const total = document.getElementById('resultTotal').innerText;
+      const percentage = document.getElementById('resultPercentage').innerText;
+      const status = document.getElementById('resultStatus').innerText;
+
+      const message = `Hi! Here's my quiz result:\n${name}\n${subject}\n${correct}\n${wrong}\n${total}\n${percentage}\n${status}`;
+
+      // Apna WhatsApp number yahan daalein (without + or 0, e.g., 923001234567)
+      const whatsappNumber = "923478285550";
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+      window.open(whatsappUrl, '_blank');
+  };
+}
 
 // ----------------------------------
 // SHOW ANSWERS
@@ -201,7 +206,6 @@ function unlockQuiz() {
   if (pin === ADMIN_PIN) {
     alert("Quiz unlocked successfully");
     localStorage.removeItem("quizDone");
-
     document.getElementById("unlockScreen").classList.add("hide");
     document.getElementById("startScreen").classList.remove("hide");
   } else {
