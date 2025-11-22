@@ -158,18 +158,41 @@ function finishQuiz() {
   // -----------------------------
   // WhatsApp Share Button (Image)
   // -----------------------------
-  const shareBtn = document.getElementById('shareBtn');
-  shareBtn.onclick = () => {
-      const resultScreen = document.getElementById('resultScreen');
-      html2canvas(resultScreen).then(canvas => {
-          canvas.toBlob(function(blob) {
-              const file = new File([blob], "quiz-result.png", { type: "image/png" });
-              const url = URL.createObjectURL(file);
-              window.open(url, '_blank');
-              alert("Result image opened in new tab. Save and share via WhatsApp!");
-          });
-      });
-  };
+  // WhatsApp Share Button
+const shareBtn = document.getElementById('shareBtn');
+
+shareBtn.onclick = () => {
+  // ----- Option 1: Image capture -----
+  const resultScreen = document.getElementById('resultScreen');
+  html2canvas(resultScreen).then(canvas => {
+    canvas.toBlob(function(blob) {
+      const file = new File([blob], "quiz-result.png", { type: "image/png" });
+      const url = URL.createObjectURL(file);
+      // Open image in new tab (user can save and share)
+      window.open(url, '_blank');
+    });
+  });
+
+  // ----- Option 2: Direct WhatsApp text + emojis -----
+  let total = questions[currentSubject].length;
+  let wrong = total - score;
+  let percentage = ((score / total) * 100).toFixed(2);
+  let status = score / total >= 0.5 ? "🎉 Pass" : "❌ Fail";
+
+  let msg = `📌 Quiz Result
+Name: ${username}
+Subject: ${currentSubject}
+✅ Correct: ${score}
+❌ Wrong: ${wrong}
+Total: ${total}
+💯 Percentage: ${percentage}%
+Status: ${status}`;
+
+  // Replace '92XXXXXXXXXX' with your WhatsApp number with country code
+  let waLink = "https://wa.me/923478285550?text=" + encodeURIComponent(msg);
+  window.open(waLink, "_blank");
+};
+
 }
 
 // ----------------------------------
