@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Application</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>Shahrukh Firozvi Quiz Application</header>
+
+<div class="container">
+
+  <!-- Start Screen -->
+  <div id="startScreen">
+      <h2>Enter Your Name</h2>
+      <input type="text" id="username" placeholder="Your name">
+      <button onclick="goToSubject()">Next</button>
+  </div>
+
+  <!-- Unlock Screen -->
+  <div id="unlockScreen" class="hide">
+      <h2>Quiz Locked</h2>
+      <p>Enter PIN to unlock the quiz</p>
+      <input type="password" id="unlockPin" placeholder="Enter PIN">
+      <button onclick="unlockQuiz()">Unlock</button>
+  </div>
+
+  <!-- Subject Screen -->
+  <div id="subjectScreen" class="hide">
+      <h2>Select Subject</h2>
+      <button onclick="showEnterQuiz('English')">English</button>
+      <button onclick="showEnterQuiz('Accounting')">Accounting</button>
+  </div>
+
+  <!-- Enter Quiz Screen -->
+  <div id="enterQuizScreen" class="hide">
+      <h2 id="chosenSubject"></h2>
+      <button onclick="startQuiz()">Enter Quiz</button>
+  </div>
+
+  <!-- Quiz Screen -->
+  <div id="quizScreen" class="hide">
+      <h3 id="timer">Time: 30</h3>
+      <h3 id="questionText"></h3>
+      <div id="options"></div>
+  </div>
+
+  <!-- Result Screen -->
+  <div id="resultScreen" class="hide">
+      <h2>Result</h2>
+      <p id="resultName"></p>
+      <p id="resultSubject"></p>
+      <p id="resultCorrect"></p>
+      <p id="resultWrong"></p>
+      <p id="resultTotal"></p>
+      <button onclick="showAnswers()">View Answers</button>
+      <button onclick="location.reload()">Restart</button>
+  </div>
+
+  <!-- Answers Screen -->
+  <div id="answerScreen" class="hide">
+      <h2>Correct Answers</h2>
+      <ul id="answerList"></ul>
+      <button onclick="location.reload()">Restart</button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

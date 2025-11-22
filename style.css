@@ -1,0 +1,221 @@
+/* ---------------------------------------------------
+   GLOBAL RESETS & BASE
+-----------------------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #e8f1ff 0%, #f8fbff 100%);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---------------------------------------------------
+   HEADER
+-----------------------------------------------------*/
+header {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    padding: 22px 20px;
+    background: linear-gradient(90deg, #0059c9 0%, #007bff 100%);
+    color: #fff;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 25px rgba(0, 91, 199, 0.35);
+}
+
+/* ---------------------------------------------------
+   MAIN CARD CONTAINER
+-----------------------------------------------------*/
+.container {
+    width: 100%;
+    max-width: 480px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    border: 2px solid #c7dcff;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    color: #003b7a;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: #004c95;
+    font-weight: 600;
+}
+
+/* ---------------------------------------------------
+   INPUTS & BUTTONS
+-----------------------------------------------------*/
+input {
+    width: 100%;
+    padding: 14px 12px;
+    font-size: 17px;
+    border: 2px solid #a9c9ff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    outline: none;
+    transition: 0.25s;
+}
+
+input:focus {
+    border-color: #0057d6;
+    box-shadow: 0 0 0 3px rgba(0, 98, 255, 0.15);
+}
+
+button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+button:hover {
+    background: #005dcc;
+    box-shadow: 0 6px 18px rgba(0, 91, 204, 0.35);
+}
+
+button.secondary {
+    background: #eaf1ff;
+    color: #004aad;
+    border: 2px solid #bcd4ff;
+}
+
+button.secondary:hover {
+    background: #d9e7ff;
+}
+
+/* ---------------------------------------------------
+   QUESTIONS & OPTIONS
+-----------------------------------------------------*/
+#questionText {
+    background: #f3f8ff;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 6px solid #007bff;
+    margin-bottom: 18px;
+    color: #002d66;
+    font-size: 19px;
+}
+
+.option {
+    padding: 14px;
+    background: #eef3ff;
+    border: 2px solid #c3d6ff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+    color: #003b7a;
+    transition: 0.25s;
+}
+
+.option:hover {
+    background: #dce6ff;
+    box-shadow: 0 4px 14px rgba(0, 98, 255, 0.18);
+}
+
+/* ---------------------------------------------------
+   RESULT & ANSWER LIST
+-----------------------------------------------------*/
+#resultScreen p,
+#answerList li {
+    background: #f3f7ff;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border-left: 5px solid #007bff;
+}
+
+#answerList {
+    list-style: none;
+}
+
+/* ---------------------------------------------------
+   RESPONSIVE DESIGN
+-----------------------------------------------------*/
+
+/* Tablets */
+@media (max-width: 768px) {
+    header {
+        font-size: 20px;
+        padding: 18px;
+    }
+}
+
+/* Mobiles */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 18px;
+    }
+
+    button, input {
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    header {
+        font-size: 18px;
+        padding: 16px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}
+
+/* Extra small screens (320px) */
+@media (max-width: 360px) {
+    header {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .container {
+        padding: 16px;
+    }
+
+    button, input {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+.hide {
+    display: none;
+}
