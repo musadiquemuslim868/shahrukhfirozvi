@@ -189,7 +189,7 @@ Total: ${total}
 Status: ${status}`;
 
   // Replace '92XXXXXXXXXX' with your WhatsApp number with country code
-  let waLink = "https://wa.me/923478285550?text=" + encodeURIComponent(msg);
+  let waLink = "https://wa.me/923112827472?text=" + encodeURIComponent(msg);
   window.open(waLink, "_blank");
 };
 
