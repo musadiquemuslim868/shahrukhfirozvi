@@ -156,25 +156,19 @@ function finishQuiz() {
   }
 
   // -----------------------------
-  // WhatsApp Share Button
+  // WhatsApp Share Button (Image)
   // -----------------------------
   const shareBtn = document.getElementById('shareBtn');
   shareBtn.onclick = () => {
-      const name = document.getElementById('resultName').innerText;
-      const subject = document.getElementById('resultSubject').innerText;
-      const correct = document.getElementById('resultCorrect').innerText;
-      const wrong = document.getElementById('resultWrong').innerText;
-      const total = document.getElementById('resultTotal').innerText;
-      const percentage = document.getElementById('resultPercentage').innerText;
-      const status = document.getElementById('resultStatus').innerText;
-
-      const message = `Hi! Here's my quiz result:\n${name}\n${subject}\n${correct}\n${wrong}\n${total}\n${percentage}\n${status}`;
-
-      // Apna WhatsApp number yahan daalein (without + or 0, e.g., 923001234567)
-      const whatsappNumber = "923478285550";
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
-      window.open(whatsappUrl, '_blank');
+      const resultScreen = document.getElementById('resultScreen');
+      html2canvas(resultScreen).then(canvas => {
+          canvas.toBlob(function(blob) {
+              const file = new File([blob], "quiz-result.png", { type: "image/png" });
+              const url = URL.createObjectURL(file);
+              window.open(url, '_blank');
+              alert("Result image opened in new tab. Save and share via WhatsApp!");
+          });
+      });
   };
 }
 
