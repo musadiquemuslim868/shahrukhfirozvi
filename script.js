@@ -192,7 +192,7 @@ Subject: ${currentSubject}
 Total: ${total}
 💯 Percentage: ${percentage}%
 Status: ${status}
-<p class="shah-color">Teacher: Shahrukh Firozvi</p>
+Teacher: Shahrukh Firozvi
 `;
 
       window.open("https://wa.me/" + WHATSAPP_FALLBACK_NUMBER + "?text=" + encodeURIComponent(msg), "_blank");
