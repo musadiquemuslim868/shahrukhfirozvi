@@ -132,6 +132,7 @@ function finishQuiz() {
     <p>Total Questions: ${total}</p>
     <p>Percentage: ${percentage.toFixed(2)}%</p>
     <p>Status: <span style="color:${status==='Pass'?'green':'red'}">${status}</span></p>
+    <p>Teacher: Shahrukh Firozvi</p>
   `;
   resultScreen.appendChild(resultCard);
 
@@ -190,7 +191,9 @@ Subject: ${currentSubject}
 ❌ Wrong: ${wrong}
 Total: ${total}
 💯 Percentage: ${percentage}%
-Status: ${status}`;
+Status: ${status}
+<p>Teacher: Shahrukh Firozvi</p>
+`;
 
       window.open("https://wa.me/" + WHATSAPP_FALLBACK_NUMBER + "?text=" + encodeURIComponent(msg), "_blank");
 
