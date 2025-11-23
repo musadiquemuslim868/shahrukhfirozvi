@@ -1,14 +1,12 @@
 // ----------------------------------
-// DEMO QUESTIONS
+// QUESTIONS
 // ----------------------------------
-
 const questions = {
   English: [
     { q: "What is the synonym of Happy?", options: ["Sad", "Joyful", "Angry", "Weak"], answer: 1 },
     { q: "Correct spelling?", options: ["Enviroment", "Environment", "Envirement", "Enviranment"], answer: 1 },
     { q: "He ___ playing.", options: ["is", "are", "am", "be"], answer: 0 }
   ],
-
   Accounting: [
     { q: "Asset means?", options: ["Liability", "Property", "Loss", "None"], answer: 1 },
     { q: "Capital is?", options: ["Owner’s investment", "Loan", "Expense", "Income"], answer: 0 },
@@ -19,7 +17,6 @@ const questions = {
 // ----------------------------------
 // VARIABLES
 // ----------------------------------
-
 let username = "";
 let currentSubject = "";
 let currentIndex = 0;
@@ -27,13 +24,12 @@ let score = 0;
 let userAnswers = [];
 let timer;
 let timeLeft = 30;
-
 const ADMIN_PIN = "1234";
+const WHATSAPP_FALLBACK_NUMBER = "923112827472";
 
 // ----------------------------------
-// INITIAL LOAD — CHECK LOCK
+// INITIAL LOAD
 // ----------------------------------
-
 window.onload = () => {
   if (localStorage.getItem("quizDone") === "true") {
     document.getElementById("startScreen").classList.add("hide");
@@ -44,13 +40,9 @@ window.onload = () => {
 // ----------------------------------
 // NAVIGATION
 // ----------------------------------
-
 function goToSubject() {
   username = document.getElementById("username").value.trim();
-  if (username === "") {
-    alert("Enter name first");
-    return;
-  }
+  if (!username) return alert("Enter name first");
   document.getElementById("startScreen").classList.add("hide");
   document.getElementById("subjectScreen").classList.remove("hide");
 }
@@ -63,46 +55,34 @@ function showEnterQuiz(subject) {
 }
 
 function startQuiz() {
-  currentIndex = 0;
-  score = 0;
-  userAnswers = [];
-  timeLeft = 30;
+  currentIndex = 0; score = 0; userAnswers = []; timeLeft = 30;
   document.getElementById("enterQuizScreen").classList.add("hide");
   document.getElementById("quizScreen").classList.remove("hide");
-  loadQuestion();
-  startTimer();
+  loadQuestion(); startTimer();
 }
 
 // ----------------------------------
 // TIMER
 // ----------------------------------
-
 function startTimer() {
   timer = setInterval(() => {
     timeLeft--;
     document.getElementById("timer").innerText = "Time: " + timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      finishQuiz();
-    }
+    if (timeLeft <= 0) { clearInterval(timer); finishQuiz(); }
   }, 1000);
 }
 
 // ----------------------------------
 // LOAD QUESTION
 // ----------------------------------
-
 function loadQuestion() {
-  let q = questions[currentSubject][currentIndex];
+  const q = questions[currentSubject][currentIndex];
   document.getElementById("questionText").innerText = q.q;
-
-  let optionsDiv = document.getElementById("options");
+  const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
-
   q.options.forEach((opt, i) => {
     let btn = document.createElement("button");
-    btn.className = "option";
-    btn.innerText = opt;
+    btn.className = "option"; btn.innerText = opt;
     btn.onclick = () => selectAnswer(i);
     optionsDiv.appendChild(btn);
   });
@@ -111,75 +91,99 @@ function loadQuestion() {
 // ----------------------------------
 // SELECT ANSWER
 // ----------------------------------
-
 function selectAnswer(i) {
   userAnswers.push(i);
-  if (i === questions[currentSubject][currentIndex].answer) {
-    score++;
-  }
+  if (i === questions[currentSubject][currentIndex].answer) score++;
   currentIndex++;
-  if (currentIndex >= questions[currentSubject].length) {
-    finishQuiz();
-  } else {
-    loadQuestion();
-  }
+  if (currentIndex >= questions[currentSubject].length) finishQuiz();
+  else loadQuestion();
 }
 
 // ----------------------------------
 // FINISH QUIZ
 // ----------------------------------
-
 function finishQuiz() {
   clearInterval(timer);
   localStorage.setItem("quizDone", "true");
 
+  const resultScreen = document.getElementById("resultScreen");
   document.getElementById("quizScreen").classList.add("hide");
-  document.getElementById("resultScreen").classList.remove("hide");
+  resultScreen.classList.remove("hide");
+  resultScreen.innerHTML = "";
 
-  let total = questions[currentSubject].length;
-  let wrong = total - score;
-  let percentage = (score / total) * 100;
-  let status = percentage >= 50 ? "Pass" : "Fail";
+  const total = questions[currentSubject].length;
+  const wrong = total - score;
+  const percentage = (score / total) * 100;
+  const status = percentage >= 50 ? "Pass" : "Fail";
 
-  document.getElementById("resultName").innerText = "Name: " + username;
-  document.getElementById("resultSubject").innerText = "Subject: " + currentSubject;
-  document.getElementById("resultCorrect").innerText = "Correct Answers: " + score;
-  document.getElementById("resultWrong").innerText = "Wrong Answers: " + wrong;
-  document.getElementById("resultTotal").innerText = "Total Questions: " + total;
-  document.getElementById("resultPercentage").innerText = "Percentage: " + percentage.toFixed(2) + "%";
-  document.getElementById("resultStatus").innerText = "Status: " + status;
+  // Result Card
+  const resultCard = document.createElement("div");
+  resultCard.id = "resultCard";
+  resultCard.style.padding = "20px";
+  resultCard.style.background = "#fff";
+  resultCard.style.borderRadius = "12px";
+  resultCard.style.boxShadow = "0 8px 20px rgba(0,0,0,0.1)";
+  resultCard.innerHTML = `
+    <h2>Quiz Result</h2>
+    <p>Name: ${username}</p>
+    <p>Subject: ${currentSubject}</p>
+    <p>Correct Answers: ${score}</p>
+    <p>Wrong Answers: ${wrong}</p>
+    <p>Total Questions: ${total}</p>
+    <p>Percentage: ${percentage.toFixed(2)}%</p>
+    <p>Status: <span style="color:${status==='Pass'?'green':'red'}">${status}</span></p>
+  `;
+  resultScreen.appendChild(resultCard);
 
-  if(status==="Pass"){
-    document.getElementById("resultStatus").style.color="green";
-  } else {
-    document.getElementById("resultStatus").style.color="red";
-  }
+  // Buttons container
+  const btnContainer = document.createElement("div");
+  btnContainer.style.marginTop = "12px";
 
-  // -----------------------------
-  // WhatsApp Share Button (Image)
-  // -----------------------------
-  // WhatsApp Share Button
-const shareBtn = document.getElementById('shareBtn');
+  const shareBtn = document.createElement("button");
+  shareBtn.innerText = "Share on WhatsApp";
+  shareBtn.className = "secondary";
+  shareBtn.onclick = () => shareResult(resultCard);
 
-shareBtn.onclick = () => {
-  // ----- Option 1: Image capture -----
-  const resultScreen = document.getElementById('resultScreen');
-  html2canvas(resultScreen).then(canvas => {
-    canvas.toBlob(function(blob) {
+  const restartBtn = document.createElement("button");
+  restartBtn.innerText = "Restart";
+  restartBtn.onclick = () => location.reload();
+
+  const answerBtn = document.createElement("button");
+  answerBtn.innerText = "View Answers";
+  answerBtn.onclick = showAnswers;
+
+  btnContainer.appendChild(shareBtn);
+  btnContainer.appendChild(restartBtn);
+  btnContainer.appendChild(answerBtn);
+  resultScreen.appendChild(btnContainer);
+}
+
+// ----------------------------------
+// SHARE RESULT
+// ----------------------------------
+async function shareResult(card) {
+  try {
+    const canvas = await html2canvas(card, { scale: 2, useCORS: true });
+    canvas.toBlob(async blob => {
+      if (!blob) return alert("Unable to create image.");
+
       const file = new File([blob], "quiz-result.png", { type: "image/png" });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files:[file], title:"Quiz Result" }); return; }
+        catch(e){ console.warn("Share failed", e); }
+      }
+
+      // fallback: open image + wa.me link
       const url = URL.createObjectURL(file);
-      // Open image in new tab (user can save and share)
-      window.open(url, '_blank');
-    });
-  });
+      window.open(url, "_blank");
 
-  // ----- Option 2: Direct WhatsApp text + emojis -----
-  let total = questions[currentSubject].length;
-  let wrong = total - score;
-  let percentage = ((score / total) * 100).toFixed(2);
-  let status = score / total >= 0.5 ? "🎉 Pass" : "❌ Fail";
+      const total = questions[currentSubject].length;
+      const wrong = total - score;
+      const percentage = ((score / total) * 100).toFixed(2);
+      const status = score / total >= 0.5 ? "Pass" : "Fail";
 
-  let msg = `📌 Quiz Result
+      const msg = `📌 Quiz Result
 Name: ${username}
 Subject: ${currentSubject}
 ✅ Correct: ${score}
@@ -188,44 +192,44 @@ Total: ${total}
 💯 Percentage: ${percentage}%
 Status: ${status}`;
 
-  // Replace '92XXXXXXXXXX' with your WhatsApp number with country code
-  let waLink = "https://wa.me/923112827472?text=" + encodeURIComponent(msg);
-  window.open(waLink, "_blank");
-};
+      window.open("https://wa.me/" + WHATSAPP_FALLBACK_NUMBER + "?text=" + encodeURIComponent(msg), "_blank");
 
+    }, "image/png");
+  } catch(e) { alert("Sharing failed. Use a mobile browser."); }
 }
 
 // ----------------------------------
 // SHOW ANSWERS
 // ----------------------------------
-
 function showAnswers() {
   document.getElementById("resultScreen").classList.add("hide");
-  document.getElementById("answerScreen").classList.remove("hide");
-
-  let list = document.getElementById("answerList");
-  list.innerHTML = "";
-
-  questions[currentSubject].forEach((q, index) => {
-    let li = document.createElement("li");
-    li.innerText = q.q + " → Correct: " + q.options[q.answer];
+  const ansScreen = document.getElementById("answerScreen");
+  ansScreen.classList.remove("hide");
+  ansScreen.innerHTML = "<h2>Correct Answers</h2><ul id='answerList'></ul>";
+  const list = document.getElementById("answerList");
+  questions[currentSubject].forEach(q => {
+    const li = document.createElement("li");
+    li.innerText = `${q.q} → Correct: ${q.options[q.answer]}`;
     list.appendChild(li);
   });
+  const backBtn = document.createElement("button");
+  backBtn.innerText = "Back";
+  backBtn.onclick = () => {
+    ansScreen.classList.add("hide");
+    document.getElementById("resultScreen").classList.remove("hide");
+  };
+  ansScreen.appendChild(backBtn);
 }
 
 // ----------------------------------
 // UNLOCK QUIZ
 // ----------------------------------
-
 function unlockQuiz() {
   let pin = document.getElementById("unlockPin").value;
-
   if (pin === ADMIN_PIN) {
     alert("Quiz unlocked successfully");
     localStorage.removeItem("quizDone");
     document.getElementById("unlockScreen").classList.add("hide");
     document.getElementById("startScreen").classList.remove("hide");
-  } else {
-    alert("Incorrect PIN");
-  }
+  } else { alert("Incorrect PIN"); }
 }
