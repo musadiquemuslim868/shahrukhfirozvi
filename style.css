@@ -35,7 +35,10 @@ header {
     margin-bottom: 20px;
     box-shadow: 0 5px 25px rgba(0, 91, 199, 0.35);
 }
-
+.shah-color{
+    color: #0059c9 !important;
+    font-weight: bold;
+}
 /* ---------------------------------------------------
    MAIN CARD CONTAINER
 -----------------------------------------------------*/
